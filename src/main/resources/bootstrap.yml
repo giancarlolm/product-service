@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8083
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: host.docker.internal
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Exposes all endpoints
+        # exclude: "health,info" # Excludes specific endpoints
+      base-path: "/actuator" # Changes base path for actuator endpoints
+  endpoint:
+    health:
+      show-details: always # Shows full health information
+    shutdown:
+      enabled: true # Enables the shutdown endpoint
+# http://localhost:8083/product-service/dev
