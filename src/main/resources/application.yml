@@ -3,17 +3,24 @@ spring:
     name: product-service
   cloud:
     config:
-      profile: dev
+      profile: prod
+  loadbalancer:
+    ribbon:
+      enabled: false
+    cache:
+      enabled: true
+      ttl: 30s
 
-product:
-  user: usuarioTest
-  pass: claveTest
+server:
+  port: 0
 
 eureka:
   instance:
-    prefer-ip-address: false
-    hostname: host.docker.internal
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}:${random.int(1000,9999)}
+    #hostname: host.docker.internal
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-
+    fetch-registry: true
+    register-with-eureka: true
