@@ -16,11 +16,19 @@ server:
 
 eureka:
   instance:
+    instance-id: ${spring.application.name}-${random.int(10000,99999)}-${spring.application.instance_id:${random.value}}
+    #instance-id: ${spring.application.name}
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}:${random.int(1000,9999)}
-    #hostname: host.docker.internal
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+logging:
+  level:
+    com.mitocode.product_service: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
