@@ -10,9 +10,35 @@ spring:
     cache:
       enabled: true
       ttl: 30s
+  datasource:
+    url: jdbc:mysql://localhost:3306/retail?useSSL=false # localhost:puerto/DBNAME?useSSL=false / no usamos SSL
+    username: root
+    password: rootroot
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  hikari:
+    maximum-pool-size: 10
+    minimum-idle: 3
+    idle-timeout: 30000
+    connection-timeout: 20000
+    max-lifetime: 1800000
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: retailnosql
+
+# OpenAPI/Swagger Configuration
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+  api-docs:
+    path: /v3/api-docs
+
 
 server:
   port: 0
+  error:
+    include-message: always
 
 eureka:
   instance:
@@ -29,6 +55,7 @@ eureka:
 
 logging:
   level:
+    root: INFO
     com.mitocode.product_service: DEBUG
     org.springframework.cloud.loadbalancer: DEBUG
     org.springframework.cloud.openfeign: DEBUG
