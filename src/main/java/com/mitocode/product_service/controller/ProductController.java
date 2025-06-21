@@ -43,6 +43,8 @@ public class ProductController {
     @Operation(summary = "Obtener un producto por ID",
             description = "Retorna un producto dado su ID.")
     public ResponseEntity<Product> getById(@PathVariable Long id) {
+
+
         return ResponseEntity.ok(productService.getById(id));
     }
 
@@ -74,22 +76,7 @@ public class ProductController {
 
 
     @PostMapping
-    @Operation(
-            summary = "Crear un nuevo producto",
-            description = "Crea un nuevo producto en el sistema con toda la información requerida"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Producto creado exitosamente",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductRequest.class))),
-            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "409", description = "Ya existe un producto con el mismo SKU",
-                    content = @Content(mediaType = "application/json"))
-    })
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Product> createProduct(
-            @RequestBody @Parameter(description = "Datos para creación del producto", required = true)
-            @Valid ProductRequest request
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest request
     ) {
         Product response = productService.createProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
