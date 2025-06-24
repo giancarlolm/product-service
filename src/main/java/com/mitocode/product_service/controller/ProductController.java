@@ -22,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 @Slf4j
@@ -48,15 +50,27 @@ public class ProductController {
         return ResponseEntity.ok(productService.getById(id));
     }
 
-    @GetMapping("/name")
-    public String getName() {
-        return "productName";
+    @PutMapping("{id}")
+    public ResponseEntity<Product> updateById(@PathVariable Long id,
+                                              @RequestBody Product product){
+        product.setId(id);
+        return ResponseEntity.ok(productService.updateProduct(product));
     }
+
 
     @GetMapping("/reader/{id}")
     public ResponseEntity<ProductNoSql> getReadById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getReadById(id));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return
+                ResponseEntity.ok(productService.getAllProducts());
+    }
+
+
+
 
     @GetMapping("/reader")
     public ResponseEntity<ProductNoSql> getReadByName(@RequestParam("name") String name) {

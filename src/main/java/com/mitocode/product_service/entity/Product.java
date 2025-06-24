@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Entidad de producto con todas las especificaciones")
-public class Product {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,23 +53,6 @@ public class Product {
     @Schema(description = "ID de la marca", example = "1", required = true)
     private Long brandId;
 
-    @Column(name = "regular_price", nullable = false, precision = 10, scale = 2)
-    @NotNull(message = "Regular price is required")
-    @DecimalMin(value = "0.01", message = "Regular price must be greater than 0")
-    @Schema(description = "Precio regular en soles", example = "3299.00", required = true)
-    private BigDecimal regularPrice;
-
-    @Column(name = "sale_price", precision = 10, scale = 2)
-    @DecimalMin(value = "0.01", message = "Sale price must be greater than 0")
-    @Schema(description = "Precio de oferta en soles", example = "2799.00")
-    private BigDecimal salePrice;
-
-    @Column(name = "stock_quantity", nullable = false)
-    @Min(value = 0, message = "Stock quantity cannot be negative")
-    @Builder.Default
-    @Schema(description = "Cantidad disponible en stock", example = "25", defaultValue = "0")
-    private Integer stockQuantity = 0;
-
     @Column(name = "color", length = 50)
     @Size(max = 50, message = "Color must not exceed 50 characters")
     @Schema(description = "Color del producto", example = "Silver")
@@ -89,11 +73,6 @@ public class Product {
     @Builder.Default
     @Schema(description = "Estado activo del producto", example = "true", defaultValue = "true")
     private Boolean isActive = true;
-
-    @Column(name = "is_featured", nullable = false)
-    @Builder.Default
-    @Schema(description = "Estado destacado del producto", example = "false", defaultValue = "false")
-    private Boolean isFeatured = false;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

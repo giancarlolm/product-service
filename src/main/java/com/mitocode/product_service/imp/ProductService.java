@@ -5,6 +5,8 @@ import com.mitocode.product_service.entity.Product;
 import com.mitocode.product_service.entitynosql.ProductNoSql;
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 public interface ProductService {
 
     Product getById(Long id);
@@ -14,4 +16,8 @@ public interface ProductService {
     ProductNoSql getReadByName(String name);
 
     Product createProduct(@Valid ProductRequest request);
+
+    List<Product> getAllProducts();
+
+    Product updateProduct(Product product);
 }

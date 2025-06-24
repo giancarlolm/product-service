@@ -26,6 +26,38 @@ spring:
       host: localhost
       port: 27017
       database: retailnosql
+redis:
+  host: localhost
+  port: 6379
+  password:
+  timeout: 2s                 # Timeout en segundos (s)
+  lettuce:
+    pool:
+      max-active: 8
+      max-idle: 8
+      min-idle: 0
+  #time-to-live: 1m            # Tiempo de vida del cache
+
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxAttempts: 3         # intenta hasta 3 veces
+        waitDuration: 5s       # espera 2 s entre cada intento
+    instances:
+      backendService:
+        baseConfig: default
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+    instances:
+      backendService:
+        baseConfig: default
+
 
 # OpenAPI/Swagger Configuration
 springdoc:
