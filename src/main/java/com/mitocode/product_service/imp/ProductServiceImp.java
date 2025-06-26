@@ -5,6 +5,7 @@ import com.mitocode.product_service.dao.ProductNoSqlDAO;
 import com.mitocode.product_service.dto.ProductRequest;
 import com.mitocode.product_service.entity.Product;
 import com.mitocode.product_service.entitynosql.ProductNoSql;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -23,10 +25,15 @@ public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductNoSqlDAO productNoSqlDAO;
 
+    private Random random = new Random();
 
     @Override
-    @Cacheable(value = "products", key = "#id")
+    //@Cacheable(value = "products", key = "#id")
+    @CircuitBreaker(name = "dataBase", fallbackMethod = "fallback")
     public Product getById(Long id) {
+        if (random.nextBoolean()) {
+            throw new RuntimeException("Error de Producto");
+        }
         this.sleepSeconds(3L);
         return productDAO.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Producto no encontrado. ID: " + id));

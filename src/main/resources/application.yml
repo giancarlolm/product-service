@@ -45,18 +45,25 @@ resilience4j:
         maxAttempts: 3         # intenta hasta 3 veces
         waitDuration: 5s       # espera 2 s entre cada intento
     instances:
-      backendService:
+      productService:
         baseConfig: default
+        waitDuration: 10s
   circuitbreaker:
     configs:
       default:
-        slidingWindowType: COUNT_BASED
+        slidingWindowType: COUNT_BASED  # Medición por conteo
         slidingWindowSize: 5
         failureRateThreshold: 50
-        waitDurationInOpenState: 10s
+        waitDurationInOpenState: 60s
+        #permittedNumberOfCallsInHalfOpenState: 5
     instances:
-      backendService:
+      customerService:
         baseConfig: default
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 5
+      dataBase:
+        baseConfig: default
+        waitDurationInOpenState: 30s
 
 
 # OpenAPI/Swagger Configuration
@@ -68,7 +75,8 @@ springdoc:
 
 
 server:
-  port: 0
+  #port: 0
+  port: 9092
   error:
     include-message: always
 
