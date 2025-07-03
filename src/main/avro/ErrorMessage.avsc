@@ -1,0 +1,82 @@
+{
+  "type": "record",
+  "name": "ErrorMessage",
+  "namespace": "com.mitocode.product_service.avro",
+  "doc": "Schema para mensajes de error de peticiones HTTP",
+  "fields": [
+    {
+      "name": "errorId",
+      "type": "string",
+      "doc": "UUID único del error"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Timestamp del error"
+    },
+    {
+      "name": "serviceName",
+      "type": "string",
+      "doc": "Nombre del servicio que generó el error"
+    },
+    {
+      "name": "httpMethod",
+      "type": "string",
+      "doc": "Método HTTP (GET, POST, PUT, DELETE)"
+    },
+    {
+      "name": "endpoint",
+      "type": "string",
+      "doc": "Endpoint que falló"
+    },
+    {
+      "name": "statusCode",
+      "type": "int",
+      "doc": "Código de estado HTTP"
+    },
+    {
+      "name": "errorMessage",
+      "type": "string",
+      "doc": "Mensaje de error"
+    },
+    {
+      "name": "stackTrace",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Stack trace del error (opcional)"
+    },
+    {
+      "name": "requestId",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "ID de correlación de la petición"
+    },
+    {
+      "name": "userId",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "ID del usuario que hizo la petición"
+    },
+    {
+      "name": "clientIp",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "IP del cliente"
+    },
+    {
+      "name": "userAgent",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "User Agent del cliente"
+    },
+    {
+      "name": "additionalData",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Datos adicionales en formato JSON"
+    }
+  ]
+}
